@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" version="2.4">
+
+<!-- <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5"> -->
+  <display-name>eSocity</display-name>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>  classpath:dao-beans.xml classpath:service-beans.xml classpath:velocityMail-context.xml /WEB-INF/society-servlet.xml</param-value>
+  </context-param>
+  
+ <listener>
+    <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+  </listener> 
+  
+  <servlet>
+    <servlet-name>society</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  </servlet> 
+  
+  <servlet>  
+	<servlet-name>jasperimage</servlet-name>
+	<servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>society</servlet-name>
+    <url-pattern>*.htm</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+	<servlet-name>society</servlet-name>
+	<url-pattern>*.rep</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+	<servlet-name>society</servlet-name>
+	<url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+	<servlet-name>society</servlet-name>
+	<url-pattern>*.mhtm</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+	<servlet-name>jasperimage</servlet-name>
+	<url-pattern>/reports/image</url-pattern>
+  </servlet-mapping>
+  
+  <filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+		    <param-name>encoding</param-name>
+		    <param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+		    <param-name>forceEncoding</param-name>
+		    <param-value>true</param-value>
+		</init-param>
+  </filter>
+  
+  <filter>
+    <filter-name>requestHandlerFilter</filter-name>
+    <filter-class>
+        app.societywala.common.filter.RequestHandlerFilter
+    </filter-class>
+  </filter>
+  
+  <filter>
+    <filter-name>threadLocalFilter</filter-name>
+    <filter-class>
+        app.societywala.common.filter.ThreadLocalFilter
+    </filter-class>
+    <init-param>
+      <param-name>excludePatterns</param-name>
+      <param-value>/ajaxuser/authenticateUser.htm</param-value>
+    </init-param>
+  </filter>
+  
+  <filter>
+    <filter-name>responseHandlerFilter</filter-name>
+    <filter-class>
+        app.societywala.common.filter.ResponseHandlerFilter
+    </filter-class>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>*.htm</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>requestHandlerFilter</filter-name>
+    <url-pattern>*.htm</url-pattern>
+  </filter-mapping>  
+  
+  <filter-mapping>
+    <filter-name>threadLocalFilter</filter-name>
+    <url-pattern>*.htm</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>responseHandlerFilter</filter-name>
+    <url-pattern>*.htm</url-pattern>
+  </filter-mapping>
+  
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/WEB-INF/jsp/common/error.jsp</location>
+  </error-page>
+</web-app>
